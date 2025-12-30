@@ -1,26 +1,46 @@
 @import "tailwindcss";
 
+@theme {
+  --color-bg-dark     : light-dark(oklch(0.9  0.03 90 ), oklch(0.1  0.03 90 ));
+  --color-bg          : light-dark(oklch(0.98 0.03 90 ), oklch(0.15 0.03 90 ));
+  --color-bg-light    : light-dark(oklch(1.0  0.03 90 ), oklch(0.2  0.03 90 ));
+  
+  --color-text        : light-dark(oklch(0.2  0    90 ), oklch(0.96 0    90 ));
+  --color-text-muted  : light-dark(oklch(0.4  0    90 ), oklch(0.76 0    90 ));
+  
+  --color-highlight   : light-dark(oklch(0.7  0    90 ), oklch(0.4  0    90 ));
+  --color-border      : light-dark(oklch(0.8  0    90 ), oklch(0.4  0    90 ));
+  --color-border-muted: light-dark(oklch(0.9  0    90 ), oklch(0.3  0    90 ));
+  
+  --color-primary     : light-dark(oklch(0.6  0.1  90 ), oklch(0.76 0.1  90 ));
+  --color-secondary   : light-dark(oklch(0.6  0.1  270), oklch(0.76 0.1  270));
+  
+  --color-danger      : light-dark(oklch(0.6  0.05 30 ), oklch(0.7  0.05 30 ));
+  --color-warning     : light-dark(oklch(0.7  0.05 100), oklch(0.7  0.05 100));
+  --color-success     : light-dark(oklch(0.6  0.05 160), oklch(0.7  0.05 160));
+  --color-info        : light-dark(oklch(0.6  0.05 260), oklch(0.7  0.05 260));
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html, body {
+  height: 100%;
+  width: 100%;
+  background-color: var(--color-bg);
+  color: var(--color-text);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  display: flex;
+}
+
+#root {
+  flex: 1;
+  width: 100%;
 }
