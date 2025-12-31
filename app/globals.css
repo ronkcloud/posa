@@ -4,17 +4,17 @@
   --color-bg-dark     : light-dark(oklch(0.9  0.03 90 ), oklch(0.1  0.03 90 ));
   --color-bg          : light-dark(oklch(0.98 0.03 90 ), oklch(0.15 0.03 90 ));
   --color-bg-light    : light-dark(oklch(1.0  0.03 90 ), oklch(0.2  0.03 90 ));
-  
+
   --color-text        : light-dark(oklch(0.2  0    90 ), oklch(0.96 0    90 ));
   --color-text-muted  : light-dark(oklch(0.4  0    90 ), oklch(0.76 0    90 ));
-  
+
   --color-highlight   : light-dark(oklch(0.7  0    90 ), oklch(0.4  0    90 ));
   --color-border      : light-dark(oklch(0.8  0    90 ), oklch(0.4  0    90 ));
   --color-border-muted: light-dark(oklch(0.9  0    90 ), oklch(0.3  0    90 ));
-  
+
   --color-primary     : light-dark(oklch(0.6  0.1  90 ), oklch(0.76 0.1  90 ));
   --color-secondary   : light-dark(oklch(0.6  0.1  270), oklch(0.76 0.1  270));
-  
+
   --color-danger      : light-dark(oklch(0.6  0.05 30 ), oklch(0.7  0.05 30 ));
   --color-warning     : light-dark(oklch(0.7  0.05 100), oklch(0.7  0.05 100));
   --color-success     : light-dark(oklch(0.6  0.05 160), oklch(0.7  0.05 160));

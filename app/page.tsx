@@ -1,17 +1,21 @@
+'use client'
+
 import Image from "next/image";
-import { Settings, Bell, Lamp } from 'lucide-react'
-import { SidePanel } from "./components/side-panel";
+import { useState } from "react";
+import { ProductPanel } from "./components/product-panel";
+import { OrderPanel } from "./components/order-panel";
+import { OrderContext } from "@/hook/order-context";
+import { OrderItem } from "@/types/order";
 
 export default function Home() {
-    const sidebarItems = [
-        { icon: <Bell size={20} />, label: "Notifications" },
-        { icon: <Settings size={20} />, label: "Settings" },
-        { icon: <Lamp size={20} />, label: "Ideas" },
-    ]
+    const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
 
     return (
-        <div id="app" className="flex w-full h-full bg-bg">
-            <SidePanel items={sidebarItems} />
+        <div className="flex flex-wrap gap-4 items-center mx-auto">
+            <OrderContext.Provider value={{ orderItems, setOrderItems }}>
+                <ProductPanel className="w-[calc((12rem+1rem)*4)] h-screen overflow-y-auto"/>
+                <OrderPanel className="w-[320px] h-screen"/>
+            </OrderContext.Provider>
         </div>
     )
 }

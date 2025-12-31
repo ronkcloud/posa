@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Settings, Bell, Lamp } from 'lucide-react'
+import { SidePanel } from "./components/side-panel";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -22,11 +24,19 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const sidebarItems = [
+        { icon: <Bell size={20} />, label: "Notifications" },
+        { icon: <Settings size={20} />, label: "Settings" },
+        { icon: <Lamp size={20} />, label: "Ideas" },
+  ]
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <SidePanel items={sidebarItems} />
         {children}
       </body>
     </html>
