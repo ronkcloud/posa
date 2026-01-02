@@ -1,6 +1,7 @@
 'use client'
 
 import * as React from "react"
+import { useState } from "react";
 import { PRODUCTS, formatCurrency, formatShortCurrency } from "@/lib/products";
 import {
   Card,
@@ -11,15 +12,44 @@ import {
   CardTitle,
 } from "./card";
 import { Button } from "./button";
+import { Spinner } from "./spinner";
 import { cn } from "@/lib/utils"
 import { useOrderContext } from "@/hook/order-context"
 
 export function OrderPanel({ className, ...props }: React.ComponentProps<"div">) {
     const { orderItems, setOrderItems } = useOrderContext();
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const removeFromOrder = (productId: string) => {
-        setOrderItems(orderItems.filter((item) => item.productId !== productId));
+        setOrderItems(orderItems.filter(item => item.productId !== productId));
     };
+
+    const getTotalAmount = () => {
+        return orderItems.reduce(
+            (total, item) => total + item.totalPrice,
+            0
+        );
+    };
+
+    const handleSubmit = async () => {
+        try {
+            await fetch("/api/transactions", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(orderItems)
+            });
+        } catch (error) {
+            console.error("Error submitting order:", error);
+        } finally {
+
+        }
+
+        console.log("Transaction submitted");
+        setOrderItems([]);
+
+    }
 
     return(
         <div 
@@ -60,35 +90,45 @@ export function OrderPanel({ className, ...props }: React.ComponentProps<"div">)
                         </div>
                     ))}
                 </CardContent>
-                {/* <CardFooter className="flex flex-col gap-3">
-                    <div className="flex items-center gap-2 w-full">
+                <CardFooter className="flex flex-col gap-3">
+                    {/* <div className="flex items-center gap-2 w-full">
                     <Badge variant="outline" className="text-sm">
                         Payment: QRIS
                     </Badge>
-                    </div>
+                    </div> */}
                     <div className="border-t pt-3 mt-3 w-full">
-                    <Button
-                        onClick={handleSubmit}
-                        disabled={orderItems.length === 0 || isSubmitting}
-                        className="w-full text-lg font-bold h-12"
-                        size="lg"
-                    >
-                        {isSubmitting 
-                        ? <span>Recording...</span>
-                        : (
-                        <div className="flex justify-between items-center w-full">
-                            <span>Record Order</span>
-                            <span>{formatCurrency(getTotalAmount())}</span>
+                        <Button
+                            onClick={handleSubmit}
+                            disabled={orderItems.length === 0 || isSubmitting}
+                            className="w-full text-lg font-bold h-12 rounded-[1rem]"
+                            size="lg"
+                        >
+                            <div className="flex justify-between items-center w-full">
+                                {isSubmitting 
+                                ? (
+                                    <>
+                                        <div className="flex items-center gap-2">
+                                            <Spinner className="size-4"/>
+                                            <span>Submitting...</span>
+                                        </div>
+                                        <span>{formatCurrency(getTotalAmount())}</span>
+                                    </>
+                                )
+                                : (
+                                    <>
+                                        <span>Submit</span>
+                                        <span>{formatCurrency(getTotalAmount())}</span>
+                                    </>
+                                )}
+                            </div>
+                        </Button>
+                    </div>
+                    {/* {successMessage && (
+                        <div className="w-full p-3 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100 rounded-lg text-center">
+                            {successMessage}
                         </div>
-                        )}
-                    </Button>
-                    </div>
-                    {successMessage && (
-                    <div className="w-full p-3 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100 rounded-lg text-center">
-                        {successMessage}
-                    </div>
-                    )}
-                </CardFooter> */}
+                    )} */}
+                </CardFooter>
             </Card>
         </div>
     )

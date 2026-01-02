@@ -14,7 +14,7 @@ export default function Home() {
         <div className="flex flex-wrap gap-4 items-center mx-auto">
             <OrderContext.Provider value={{ orderItems, setOrderItems }}>
                 <ProductPanel className="w-[calc((12rem+1rem)*4)] h-screen overflow-y-auto"/>
-                <OrderPanel className="w-[320px] h-screen"/>
+                <OrderPanel className="w-[460px] h-screen"/>
             </OrderContext.Provider>
         </div>
     )
