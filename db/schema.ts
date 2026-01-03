@@ -1,4 +1,5 @@
 import { sqliteTable, text, integer, real } from "drizzle-orm/sqlite-core";
+import { OrderItem } from "../lib/validations";
 import { sql } from "drizzle-orm";
 
 export const products = sqliteTable("products", {
@@ -7,24 +8,12 @@ export const products = sqliteTable("products", {
   category: text("category"),
   price: real("price").notNull(),
   stock: integer("stock").default(0),
-  createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
 });
 
 export const orders = sqliteTable("orders", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   totalAmount: real("total_amount").notNull(),
   paymentMethod: text("payment_method"),
+  orderDetails: text("order_details", { mode: "json" }).$type<OrderItem[]>().notNull(),
   createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
-});
-
-export const orderItems = sqliteTable("order_items", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  orderId: integer("order_id")
-    .notNull()
-    .references(() => orders.id),
-  productId: integer("product_id")
-    .notNull()
-    .references(() => products.id),
-  quantity: integer("quantity").notNull(),
-  priceAtSale: real("price_at_sale").notNull(),
 });

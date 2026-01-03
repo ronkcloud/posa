@@ -32,23 +32,33 @@ export function OrderPanel({ className, ...props }: React.ComponentProps<"div">)
     };
 
     const handleSubmit = async () => {
+        if (orderItems.length === 0) return;
+        
+        setIsSubmitting(true);
         try {
-            await fetch("/api/transactions", {
+            const response = await fetch("/api/transactions", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(orderItems)
+                body: JSON.stringify({
+                    paymentMethod: "cash",
+                    orderItems
+                })
             });
+
+            if (!response.ok) {
+                throw new Error("Failed to submit transaction");
+            }
+
+            console.log("Transaction submitted successfully");
+            setOrderItems([]);
         } catch (error) {
             console.error("Error submitting order:", error);
+            alert("Failed to submit order. Please try again.");
         } finally {
-
+            setIsSubmitting(false);
         }
-
-        console.log("Transaction submitted");
-        setOrderItems([]);
-
     }
 
     return(

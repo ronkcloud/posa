@@ -1,33 +1,31 @@
 import { NextRequest, NextResponse } from "next/server";
+import { db } from "@/db/drizzle-client";
+import { orders } from "@/db/schema"
+import { transactionSchema } from "@/lib/validations";
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
-    console.log(body);
+    const result = transactionSchema.safeParse(body);
+    
+    if (!result.success) {
+      return NextResponse.json(
+        { success: false, error: "Invalid transaction data", details: result.error.format() },
+        { status: 400 }
+      );
+    }
 
-    // const { productName, quantity, unitPrice, paymentSource } = body;
+    const orderItems = result.data.orderItems;
+    const totalAmount = orderItems.reduce((sum, item) => sum + item.totalPrice, 0);
 
-    // if (!productName || !quantity || !unitPrice) {
-    //   return NextResponse.json(
-    //     { success: false, error: "Missing required fields" },
-    //     { status: 400 }
-    //   );
-    // }
+    const [newOrder] = await db.insert(orders).values({
+      totalAmount,
+      paymentMethod: result.data.paymentMethod,
+      orderDetails: orderItems,
+    }).returning();
 
-    // const transaction = {
-    //   id: generateId(),
-    //   productName,
-    //   quantity: parseInt(quantity, 10),
-    //   unitPrice: parseInt(unitPrice, 10),
-    //   totalPrice: parseInt(quantity, 10) * parseInt(unitPrice, 10),
-    //   paymentSource: paymentSource || "QRIS",
-    //   timestamp: new Date().toISOString(),
-    // };
-
-    // writeTransaction(transaction);
-
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, orderId: newOrder.id });
   } catch (error) {
     console.error("Error writing transaction:", error);
     return NextResponse.json(
