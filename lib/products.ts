@@ -1,20 +1,25 @@
 export interface Product {
   id: string;
   name: string;
-  price: number; // in IDR
+  price: number;
+  category: string;
 }
 
 export const PRODUCTS: Product[] = [
-  { id: "americano", name: "Americano", price: 15000 },
-  { id: "latte", name: "Latte", price: 20000 },
-  { id: "v60", name: "Latte", price: 20000 },
-  { id: "long black", name: "Latte", price: 20000 },
-  { id: "frape", name: "Latte", price: 20000 },
-  { id: "americano1", name: "Americano", price: 15000 },
-  { id: "latte1", name: "Latte", price: 20000 },
-  { id: "v601", name: "Latte", price: 20000 },
-  { id: "long black1", name: "Latte", price: 20000 },
-  { id: "frape1", name: "Latte", price: 20000 },
+  { id: "americano", name: "Americano", price: 15000, category: "Coffee" },
+  { id: "latte", name: "Latte", price: 20000, category: "Milk Based" },
+  { id: "v60", name: "V60", price: 20000, category: "Manual Brew" },
+  { id: "long-black", name: "Long Black", price: 20000, category: "Coffee" },
+  { id: "frape", name: "Frape", price: 20000, category: "Non Coffee" },
+  { id: "dirty-latte", name: "Dirty Latte", price: 15000, category: "Milk Based" },
+  { id: "vietnam-drip", name: "Vietnam Drip", price: 20000, category: "Manual Brew" },
+  { id: "cold-brew", name: "Cold Brew", price: 20000, category: "Manual Brew" },
+  { id: "espresso", name: "Espresso", price: 20000, category: "Coffee" },
+  { id: "matcha", name: "Matcha", price: 20000, category: "Non Coffee" },
+];
+
+export const CATEGORIES: string[] = [
+  ...new Set(PRODUCTS.map((item) => item.category)),
 ];
 
 export function formatCurrency(amount: number): string {

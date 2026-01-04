@@ -2,8 +2,9 @@
 
 import { useState, createContext, useContext } from "react";
 import * as React from "react"
-import { PanelLeft } from "lucide-react";
+import { PanelLeft, CircleUserRound } from "lucide-react";   
 import { cn } from "@/lib/utils"
+import { Tooltip } from "./tooltip";
 
 interface SidePanelContextType {
     isExpand: boolean;
@@ -31,11 +32,11 @@ function Item({ className, children, ...props }: React.ComponentProps<"div">) {
             data-slot="sidepanel-item"
             className={cn(
                 `
-                flex items-center px-2 gap-2 
-                bg-bg-light h-8 w-full 
-                cursor-pointer rounded-lg 
+                flex items-center px-2 py-6 my-2 
+                text-fg-dim h-8 w-full 
+                cursor-pointer rounded-[1rem]
                 hover:bg-highlight transition-all 
-                active:scale-95
+                active:scale-95 hover:text-fg-light
                 `,
                 className
             )}
@@ -46,41 +47,57 @@ function Item({ className, children, ...props }: React.ComponentProps<"div">) {
     );
 }
 
-function SidePanelHeader() {
+function SidePanelHeader( { className }: React.ComponentProps<"div">) {
     const { isExpand, setIsExpand } = useSidePanel();
     
     return (
         <Item
             onClick={() => setIsExpand(!isExpand)}
-            className="justify-center w-9 px-0 rounded-xl"
+            className={cn("justify-center rounded-xl", className)}
         >
-            <PanelLeft size={20} />
+            <PanelLeft size={32} strokeWidth={1} />
         </Item>
     )
 }
 
-function SidePanelContent({ items }: { items: SidePanelItem[] }) {
+function SidePanelFooter( { className }: React.ComponentProps<"div">) {   
+    return (
+        <Item
+            className={cn("justify-center rounded-xl", className)}
+        >
+            <CircleUserRound size={32} strokeWidth={1} />
+        </Item>
+    )
+}
+
+function SidePanelContent({ className, items }: React.ComponentProps<"div"> & { items: SidePanelItem[] }) {
     const { isExpand } = useSidePanel();
 
     return (
-        <div>
+        <div
+            className={cn("", className)}
+        >
             {items.map((item, index) => (
-                <Item 
-                    key={index} 
-                >
-                    {item.icon}
-                    {isExpand && <p className="ml-2">{item.label}</p>}
-                </Item>
+                <Tooltip key={index} label={item.label} className="bg-highlight left-full translate-x-2">
+                        <Item 
+                            key={index} 
+                        >
+                            {item.icon}
+                            {isExpand && <p className="ml-2">{item.label}</p>}
+                        </Item>
+                </Tooltip>
             ))}
         </div>
     );
 }
 
-function SidePanelContainer({ children }: React.ComponentProps<"div">)  {
+function SidePanelContainer({ children, className }: React.ComponentProps<"div">)  {
     const { isExpand } = useSidePanel();
 
     return (
-        <div className={`bg-bg-light p-2 ${isExpand ? 'min-w-48': 'min-w-12'} transition-all`}>
+        <div className={cn(`bg-bg-light p-2 ${isExpand ? 'min-w-48': 'min-w-12'} transition-all`,
+            className
+        )}>
             {children}
         </div>
     )
@@ -91,9 +108,10 @@ export function SidePanel({ items = [] }: { items?: SidePanelItem[]}) {
 
     return (
         <SidePanelContext.Provider value={{ isExpand, setIsExpand }}>
-            <SidePanelContainer>
-                <SidePanelHeader />
-                <SidePanelContent items={items} />
+            <SidePanelContainer className="flex flex-col gap-6">
+                <SidePanelHeader className="shrink-0" />
+                <SidePanelContent items={items} className="flex-1"/>
+                <SidePanelFooter className="shrink-0" />
             </SidePanelContainer>
         </SidePanelContext.Provider>
     );

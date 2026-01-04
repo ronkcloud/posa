@@ -1,24 +1,59 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg-dark     : light-dark(oklch(0.9  0.03 90 ), oklch(0.1  0.03 90 ));
-  --color-bg          : light-dark(oklch(0.98 0.03 90 ), oklch(0.15 0.03 90 ));
-  --color-bg-light    : light-dark(oklch(1.0  0.03 90 ), oklch(0.2  0.03 90 ));
+  --color-bg-dark     : light-dark(oklch(0.9  0.03 90 ), oklch(0.1   0.01 90 ));
+  --color-bg          : light-dark(oklch(0.98 0.03 90 ), oklch(0.18  0.01 90 ));
+  --color-bg-light    : light-dark(oklch(1.0  0.03 90 ), oklch(0.24  0.01 90 ));
 
-  --color-text        : light-dark(oklch(0.2  0    90 ), oklch(0.96 0    90 ));
+  --color-bg-shadow   : light-dark(oklch(0.9  0.0  90 ), oklch(0.05 0.0  90 ));
+
+  --color-fg-dimmer   : light-dark(oklch(0.05 0    90 ), oklch(0.3  0.02 90 ));
+  --color-fg-dim      : light-dark(oklch(0.1  0    90 ), oklch(0.5  0    90 ));
+  --color-fg          : light-dark(oklch(0.15 0    90 ), oklch(0.8  0    90 ));
+  --color-fg-light    : light-dark(oklch(0.2  0    90 ), oklch(0.9  0    90 ));
+
+  --color-text        : light-dark(oklch(0.2  0    90 ), oklch(0.90 0    90 ));
   --color-text-muted  : light-dark(oklch(0.4  0    90 ), oklch(0.76 0    90 ));
 
   --color-highlight   : light-dark(oklch(0.7  0    90 ), oklch(0.4  0    90 ));
-  --color-border      : light-dark(oklch(0.8  0    90 ), oklch(0.4  0    90 ));
-  --color-border-muted: light-dark(oklch(0.9  0    90 ), oklch(0.3  0    90 ));
+  --color-border      : light-dark(oklch(0.8  0    90 ), oklch(0.5  0    90 ));
+  --color-border-muted: light-dark(oklch(0.9  0    90 ), oklch(0.4  0    90 ));
 
-  --color-primary     : light-dark(oklch(0.6  0.1  90 ), oklch(0.76 0.1  90 ));
+  --color-primary     : light-dark(oklch(0.6  0.3  80 ), oklch(0.5  0.3  80 ));
+  --color-primary-dim : light-dark(oklch(0.4  0.1  90 ), oklch(0.35 0.1  90 ));
   --color-secondary   : light-dark(oklch(0.6  0.1  270), oklch(0.76 0.1  270));
 
   --color-danger      : light-dark(oklch(0.6  0.05 30 ), oklch(0.7  0.05 30 ));
   --color-warning     : light-dark(oklch(0.7  0.05 100), oklch(0.7  0.05 100));
   --color-success     : light-dark(oklch(0.6  0.05 160), oklch(0.7  0.05 160));
   --color-info        : light-dark(oklch(0.6  0.05 260), oklch(0.7  0.05 260));
+}
+
+@utility custom-scrollbar {
+  /* Use overlay if supported, fallback to auto with stable gutter to prevent layout shift */
+  overflow-y: auto;
+  overflow-y: overlay;
+  scrollbar-gutter: stable;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-border-muted);
+    border-radius: 10px;
+    /* Create a "floating" effect by using a transparent border and background-clip */
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: var(--color-border);
+  }
+  /* Firefox support */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-muted) transparent;
 }
 
 :root {

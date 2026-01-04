@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { Settings, Bell, Lamp } from 'lucide-react'
+import { LayoutGrid, Store, Logs } from 'lucide-react'
 import { SidePanel } from "./components/side-panel";
 import "./globals.css";
 
@@ -26,9 +26,9 @@ export default function RootLayout({
 }>) {
 
   const sidebarItems = [
-        { icon: <Bell size={20} />, label: "Notifications" },
-        { icon: <Settings size={20} />, label: "Settings" },
-        { icon: <Lamp size={20} />, label: "Ideas" },
+        { icon: <LayoutGrid size={32} strokeWidth={2} />, label: "Home" },
+        { icon: <Store size={32} strokeWidth={2} />, label: "Products" },
+        { icon: <Logs size={32} strokeWidth={2} />, label: "Transactions" },
   ]
 
   return (
