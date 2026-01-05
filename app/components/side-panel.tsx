@@ -2,6 +2,7 @@
 
 import { useState, createContext, useContext } from "react";
 import * as React from "react"
+import Link from "next/link";
 import { PanelLeft, CircleUserRound } from "lucide-react";   
 import { cn } from "@/lib/utils"
 import { Tooltip } from "./tooltip";
@@ -24,10 +25,11 @@ function useSidePanel() {
 interface SidePanelItem {
     icon: React.ReactNode
     label: string
+    href?: string
 }
 
-function Item({ className, children, ...props }: React.ComponentProps<"div">) {
-    return (
+function Item({ className, children, href, ...props }: React.ComponentProps<"div"> & { href?: string }) {
+    const content = (
         <div
             data-slot="sidepanel-item"
             className={cn(
@@ -45,6 +47,16 @@ function Item({ className, children, ...props }: React.ComponentProps<"div">) {
             {children}
         </div>
     );
+
+    if (href) {
+        return (
+            <Link href={href} className="block w-full">
+                {content}
+            </Link>
+        );
+    }
+
+    return content;
 }
 
 function SidePanelHeader( { className }: React.ComponentProps<"div">) {
@@ -81,6 +93,7 @@ function SidePanelContent({ className, items }: React.ComponentProps<"div"> & { 
                 <Tooltip key={index} label={item.label} className="bg-highlight left-full translate-x-2">
                         <Item 
                             key={index} 
+                            href={item.href}
                         >
                             {item.icon}
                             {isExpand && <p className="ml-2">{item.label}</p>}

@@ -4,12 +4,11 @@ import * as React from "react";
 import { useState } from "react";
 import { Button } from "./button";
 import { cn } from "@/lib/utils";
-import { CATEGORIES } from "@/lib/products";
 import { Input } from "./input";
 import { useOrderContext } from "@/hook/order-context"
 
 export function ProductNavigation({ className, ...props }: React.ComponentProps<"div">) {
-    const { activeCategory, setActiveCategory, setSearchQuery } = useOrderContext();
+    const { categories, activeCategory, setActiveCategory, setSearchQuery } = useOrderContext();
 
     const handleCategoryFilter = (category: string) => {
         setActiveCategory(category)
@@ -49,7 +48,7 @@ export function ProductNavigation({ className, ...props }: React.ComponentProps<
                         All
                     </Button>
                 </div>
-                { CATEGORIES.map((category) => (
+                { categories.map((category) => (
                     <div 
                         key={category}
                         className="flex items-center"

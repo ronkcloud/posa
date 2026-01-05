@@ -31,7 +31,6 @@ export function OrderPanel({ className, onCheckout, ...props }: React.ComponentP
     return(
         <div 
             className={cn(
-                "",
                 className
             )}
             {...props}

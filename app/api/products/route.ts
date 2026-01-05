@@ -1,10 +1,30 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PRODUCTS } from "@/lib/products";
+import { db } from "@/db/drizzle-client";
+import { products as productsSchema } from "@/db/schema";
 
 export async function GET(request: NextRequest) {
   try {
-    const products = PRODUCTS
-    return NextResponse.json({ success: true, data: products });
+        
+
+    // const insertedProducts = await db.insert(productsSchema).values(
+    //   PRODUCTS.map(item => ({
+    //     name: item.name,
+    //     category: item.category,
+    //     price: item.price
+    //   }))
+    // ).returning();
+
+    // console.log(insertedProducts);
+
+    const products = await db.query.products.findMany();
+    const categories = [...new Set(products.map(item => item.category))];
+
+    const data = {
+      products,
+      categories
+    };
+    
+    return NextResponse.json({ success: true, data: data });
   } catch (error) {
     console.error("Error reading product info:", error);
     return NextResponse.json(

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { LayoutGrid, Store, Logs } from 'lucide-react'
 import { SidePanel } from "./components/side-panel";
+import { OrderProvider } from "@/hook/order-context";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -26,9 +27,9 @@ export default function RootLayout({
 }>) {
 
   const sidebarItems = [
-        { icon: <LayoutGrid size={32} strokeWidth={2} />, label: "Home" },
-        { icon: <Store size={32} strokeWidth={2} />, label: "Products" },
-        { icon: <Logs size={32} strokeWidth={2} />, label: "Transactions" },
+        { icon: <LayoutGrid size={32} strokeWidth={2} />, label: "Home", href: "/" },
+        { icon: <Store size={32} strokeWidth={2} />, label: "Products", href: "/products" },
+        { icon: <Logs size={32} strokeWidth={2} />, label: "Transactions", href: "/transactions" },
   ]
 
   return (
@@ -36,8 +37,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <SidePanel items={sidebarItems} />
-        {children}
+        <OrderProvider>
+          <SidePanel items={sidebarItems} />
+          {children}
+        </OrderProvider>
       </body>
     </html>
   );
