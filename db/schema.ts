@@ -8,6 +8,7 @@ export const products = sqliteTable("products", {
   category: text("category"),
   price: real("price").notNull(),
   stock: integer("stock").default(0),
+  description: text("description"),
 });
 
 export const orders = sqliteTable("orders", {

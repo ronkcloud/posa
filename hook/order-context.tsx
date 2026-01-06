@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { OrderContextType, OrderItem } from "@/types/order"
-import { Product } from "@/lib/products";
+import { Product } from "@/lib/validations";
 
 const OrderContext = createContext<OrderContextType | undefined>(undefined);
 
@@ -13,15 +13,17 @@ export function OrderProvider({ children }: { children: ReactNode }) {
     const [searchQuery, setSearchQuery] = useState("");
     const [activeCategory, setActiveCategory] = useState("all");
 
+    const refreshProducts = async () => {
+        const res = await fetch("/api/products");
+        const data = await res.json();
+        if (data.success) {
+            setProducts(data.data.products);
+            setCategories(data.data.categories);
+        }
+    }
+
     useEffect(() => {
-        fetch('/api/products')
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    setProducts(data.data.products);
-                    setCategories(data.data.categories);
-                }
-            })
+        refreshProducts();
     }, []);
 
     return (
@@ -30,7 +32,8 @@ export function OrderProvider({ children }: { children: ReactNode }) {
             products, setProducts,
             categories, setCategories,
             searchQuery, setSearchQuery,
-            activeCategory, setActiveCategory
+            activeCategory, setActiveCategory,
+            refreshProducts
         }}>
             {children}
         </OrderContext.Provider>

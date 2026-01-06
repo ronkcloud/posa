@@ -1,7 +1,7 @@
-import { Product } from "@/lib/products"
+import { Product } from "@/lib/validations"
 
 export interface OrderItem {
-  productId: string;
+  productId: number;
   productName: string;
   quantity: number;
   unitPrice: number;
@@ -19,4 +19,5 @@ export interface OrderContextType {
     setSearchQuery: (query: string) => void;
     activeCategory: string;
     setActiveCategory: (category: string) => void;
+    refreshProducts: () => void;
 }
